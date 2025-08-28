@@ -1,36 +1,44 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Frontend ↔ Backend Demo</title>
-<style>
-body { font-family: system-ui, Arial, sans-serif; margin: 2rem; }
-button { padding: .6rem 1rem; border-radius: .5rem; border: 1px solid #aaa; cursor: pointer; }
-input { padding: .5rem; width: 280px; }
-.row { margin-bottom: 1rem; display: flex; gap: .5rem; align-items: center; }
-pre { background: #f6f6f6; padding: 1rem; border-radius: .5rem; }
-</style>
-</head>
-<body>
-<h1>Frontend ↔ Backend Demo</h1>
+import { useEffect, useState } from "react";
 
+interface User {
+  id: number;
+  name: string;
+}
 
-<div class="row">
-<button id="ping">Ping Backend (GET)</button>
-</div>
+function App() {
+  const [message, setMessage] = useState<string>("Loading...");
+  const [users, setUsers] = useState<User[]>([]);
 
+  useEffect(() => {
+    // ✅ Change these to your real backend URLs
+    fetch("https://your-backend.onrender.com")
+      .then(res => res.json())
+      .then(data => setMessage(data.message))
+      .catch(() => setMessage("⚠️ Backend not reachable"));
 
-<div class="row">
-<input id="msgInput" placeholder="Type a message to echo via POST" />
-<button id="send">Send Message (POST)</button>
-</div>
+    fetch("https://your-backend.onrender.com/users")
+      .then(res => res.json())
+      .then(data => setUsers(data))
+      .catch(() => setUsers([]));
+  }, []);
 
+  return (
+    <div style={{ fontFamily: "sans-serif", padding: "20px" }}>
+      <h1>Frontend is working ✅</h1>
+      <p><b>Backend says:</b> {message}</p>
 
-<h3>Response</h3>
-<pre id="out">(click a button above)</pre>
+      <h2>Users from DB:</h2>
+      {users.length === 0 ? (
+        <p>No users found.</p>
+      ) : (
+        <ul>
+          {users.map((u) => (
+            <li key={u.id}>{u.name}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
 
-
-<script src="./script.js"></script>
-</body>
-</html>
+export default App;
