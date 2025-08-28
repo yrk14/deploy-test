@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Frontend ↔ Backend Demo</title>
+<style>
+body { font-family: system-ui, Arial, sans-serif; margin: 2rem; }
+button { padding: .6rem 1rem; border-radius: .5rem; border: 1px solid #aaa; cursor: pointer; }
+input { padding: .5rem; width: 280px; }
+.row { margin-bottom: 1rem; display: flex; gap: .5rem; align-items: center; }
+pre { background: #f6f6f6; padding: 1rem; border-radius: .5rem; }
+</style>
+</head>
+<body>
+<h1>Frontend ↔ Backend Demo</h1>
+
+
+<div class="row">
+<button id="ping">Ping Backend (GET)</button>
+</div>
+
+
+<div class="row">
+<input id="msgInput" placeholder="Type a message to echo via POST" />
+<button id="send">Send Message (POST)</button>
+</div>
+
+
+<h3>Response</h3>
+<pre id="out">(click a button above)</pre>
+
+
+<script src="./script.js"></script>
+</body>
+</html>
