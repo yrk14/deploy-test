@@ -1,22 +1,28 @@
-from flask import Flask, jsonify, request
-from flask_cors import CORS
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
+app = FastAPI()
 
-app = Flask(__name__)
-CORS(app) # allow frontend to call the API from another origin
+# ✅ Allow frontend (running on Vercel/Netlify/localhost) to call backend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # change "*" to your frontend URL in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
+# Sample root endpoint
+@app.get("/")
+def read_root():
+    return {"message": "Hello from backend!"}
 
-@app.get("/api/hello")
-def hello():
-return jsonify(message="Hello from Flask backend!")
-
-
-@app.post("/api/echo")
-def echo():
-data = request.get_json() or {}
-return jsonify(received=data), 201
-
-
-if __name__ == "__main__":
-# 0.0.0.0 makes it accessible from the network, port 5000 by default
-app.run(host="0.0.0.0", port=5000)
+# Sample users endpoint
+@app.get("/users")
+def get_users():
+    users = [
+        {"id": 1, "name": "Alice"},
+        {"id": 2, "name": "Bob"},
+        {"id": 3, "name": "Charlie"}
+    ]
+    return users
