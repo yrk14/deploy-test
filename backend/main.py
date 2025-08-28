@@ -3,10 +3,16 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-# Allow your frontend to call the API (tighten this in prod)
+# ✅ Allowed origins (add/remove as needed)
+origins = [
+    "http://localhost:5173",                 # local Vite dev server
+    "https://<your-vercel-frontend>.vercel.app"  # your Vercel domain
+]
+
+# CORS setup
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],   # replace with your Vercel domain in production
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
