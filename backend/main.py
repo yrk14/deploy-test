@@ -6,7 +6,7 @@ app = FastAPI()
 # ✅ Allowed origins (add/remove as needed)
 origins = [
   "http://localhost:5173",                  # for local dev
-  "https://deploy-test-fawn-psi.vercel.app/"  # your live frontend
+  "https://deploy-test-fawn-psi.vercel.app"  # your live frontend
 ]
 
 
