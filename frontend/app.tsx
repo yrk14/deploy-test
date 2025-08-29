@@ -6,7 +6,7 @@ type User = { id: number; name: string };
 const RAW_API =
   (import.meta.env.VITE_API_BASE_URL as string | undefined) ??
   "https://deploy-test-1-we0q.onrender.com";
-const API = RAW_API.replace(/\/+$/, "");
+const API = "https://deploy-test-1-we0q.onrender.com/users";
 
 export default function App() {
   const [message, setMessage] = useState("");
