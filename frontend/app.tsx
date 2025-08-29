@@ -1,43 +1,46 @@
-import { useEffect, useState } from "react";
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Single File Frontend</title>
+    <script type="module">
+      import React, { useEffect, useState } from "https://esm.sh/react";
+      import { createRoot } from "https://esm.sh/react-dom/client";
 
-type User = { id: number; name: string };
+      const API = "https://deploy-test-1-we0q.onrender.com"; // 🔒 backend URL
 
-// 🔒 Hardcoded backend URL for now (so no env var issues)
-const API = "https://deploy-test-1-we0q.onrender.com";
+      function App() {
+        const [message, setMessage] = useState("");
+        const [users, setUsers] = useState([]);
 
-export default function App() {
-  const [message, setMessage] = useState("");
-  const [users, setUsers] = useState<User[]>([]);
+        useEffect(() => {
+          fetch(`${API}/`)
+            .then(r => r.json())
+            .then(d => setMessage(d.message))
+            .catch(() => setMessage("⚠️ backend not reachable"));
 
-  useEffect(() => {
-    // Test root
-    fetch(`${API}/`)
-      .then((r) => r.json())
-      .then((d) => setMessage(d.message))
-      .catch(() => setMessage("⚠️ backend not reachable"));
+          fetch(`${API}/users`)
+            .then(r => r.json())
+            .then(setUsers)
+            .catch(() => setUsers([]));
+        }, []);
 
-    // Test /users
-    fetch(`${API}/users`)
-      .then((r) => r.json())
-      .then(setUsers)
-      .catch(() => setUsers([]));
-  }, []);
+        return React.createElement("div", { style: { fontFamily: "system-ui", padding: "24px" } },
+          React.createElement("h1", null, "Frontend is working ✅"),
+          React.createElement("p", null, `Backend URL: ${API}`),
+          React.createElement("p", null, `Backend says: ${message}`),
+          React.createElement("h2", null, "Users"),
+          React.createElement("ul", null, users.map(u =>
+            React.createElement("li", { key: u.id }, u.name)
+          ))
+        );
+      }
 
-  return (
-    <div style={{ fontFamily: "system-ui", padding: 24 }}>
-      <h1>Frontend is working ✅</h1>
-
-      {/* Debug: show the backend being used */}
-      <p><b>Backend URL:</b> {API}</p>
-
-      <p><b>Backend says:</b> {message}</p>
-
-      <h2>Users</h2>
-      <ul>
-        {users.map((u) => (
-          <li key={u.id}>{u.name}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
+      createRoot(document.getElementById("root")).render(React.createElement(App));
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
