@@ -16,28 +16,31 @@
 
         useEffect(() => {
           fetch(`${API}/`)
-            .then(r => r.json())
-            .then(d => setMessage(d.message))
+            .then((r) => r.json())
+            .then((d) => setMessage(d.message))
             .catch(() => setMessage("⚠️ backend not reachable"));
 
           fetch(`${API}/users`)
-            .then(r => r.json())
+            .then((r) => r.json())
             .then(setUsers)
             .catch(() => setUsers([]));
         }, []);
 
-        return React.createElement("div", { style: { fontFamily: "system-ui", padding: "24px" } },
-          React.createElement("h1", null, "Frontend is working ✅"),
-          React.createElement("p", null, `Backend URL: ${API}`),
-          React.createElement("p", null, `Backend says: ${message}`),
-          React.createElement("h2", null, "Users"),
-          React.createElement("ul", null, users.map(u =>
-            React.createElement("li", { key: u.id }, u.name)
-          ))
+        return (
+          React.createElement("div", { style: { fontFamily: "system-ui", padding: "24px" } },
+            React.createElement("h1", null, "Frontend is working ✅"),
+            React.createElement("p", null, `Backend URL: ${API}`),
+            React.createElement("p", null, `Backend says: ${message}`),
+            React.createElement("h2", null, "Users"),
+            React.createElement("ul", null, users.map(u =>
+              React.createElement("li", { key: u.id }, u.name)
+            ))
+          )
         );
       }
 
-      createRoot(document.getElementById("root")).render(React.createElement(App));
+      createRoot(document.getElementById("root"))
+        .render(React.createElement(App));
     </script>
   </head>
   <body>
